@@ -38,7 +38,7 @@
           <v-number-input v-model="dummyWebsocketPK" hide-details label="PK" :min="1" />
         </v-col>
         <v-col cols="auto">
-          <v-btn @click="wsSend">Retrieve</v-btn>
+          <v-btn @click="wsSend">Retrieve and Subscribe</v-btn>
         </v-col>
 
       </v-row>
@@ -141,14 +141,15 @@
   const dummyWebsocketUrl = 'ws://127.0.0.1:8000/ws/';
   const dummyWebsocketText = ref('Loading');
   const dummyWebsocketLoading = ref(true);
-  const dummyWebsocketPK = ref(1);
+  const dummyWebsocketPK = ref(3);
   const dummyWebsocket = new WebSocket(dummyWebsocketUrl);
   dummyWebsocket.onopen = (e) => {
     dummyWebsocketLoading.value = false;
     dummyWebsocketText.value = `Ready\n${JSON.stringify(e)}`;
   };
   dummyWebsocket.onmessage = (e) => {
-    dummyWebsocketText.value = `Message\n${e.data}`;
+    const data = JSON.parse(e.data);
+    dummyWebsocketText.value = `Message\n${JSON.stringify(data["data"])}`;
   }
   dummyWebsocket.onerror = (e) => {
     dummyWebsocketText.value = `Error\n${JSON.stringify(e)}`;
@@ -158,6 +159,12 @@
   }
   function wsSend(): void {
     if (dummyWebsocket.readyState != dummyWebsocket.OPEN) return;
+    dummyWebsocket.send(JSON.stringify({
+      action: 'subscribe_instance',
+      request_id: new Date().getTime(),
+      pk: dummyWebsocketPK.value,
+    }));
+    // TODO: Swap order
     dummyWebsocket.send(JSON.stringify({
       action: 'retrieve',
       request_id: new Date().getTime(),
