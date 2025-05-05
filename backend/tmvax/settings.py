@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "vaccines",
+    "daphne",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -130,3 +131,5 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 AUTH_USER_MODEL = "vaccines.User"
+
+ASGI_APPLICATION = "tmvax.asgi.application"
