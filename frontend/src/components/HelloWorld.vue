@@ -11,7 +11,19 @@
         <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
         <h1 class="text-h2 font-weight-bold">Vuetify</h1>
       </div>
-
+      <v-row>
+        <v-col>
+          <v-card
+            class="py-4 text-center"
+            title="Dummy View"
+            variant="tonal"
+            target="_blank"
+            :href="dummyViewUrl"
+            :text="dummyViewText"
+            :loading="dummyViewLoading"
+          />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12">
           <v-card
@@ -56,6 +68,7 @@
           />
         </v-col>
       </v-row>
+
     </div>
   </v-container>
 </template>
@@ -87,4 +100,22 @@
       title: 'Community',
     },
   ]
+
+  const dummyViewUrl = "http://127.0.0.1:8000/";
+  const dummyViewText = ref("Loading");
+  const dummyViewLoading = ref(true);
+  // TODO: Better use useFetch for this 
+  fetch(dummyViewUrl)
+    .then((response) => response.text())
+    .then(async (text) => {
+      await new Promise((r) => setTimeout(r, 1000))
+      return text;
+    })
+    .then((text) => {
+      dummyViewText.value = text;
+    }).catch((e) => {
+      dummyViewText.value = `Something went wrong\n${e}`
+    }).finally(() => {
+      dummyViewLoading.value = false;
+    });
 </script>
