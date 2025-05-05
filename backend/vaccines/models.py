@@ -7,3 +7,6 @@ class User(AbstractUser):
 
 class Vaccine(models.Model):
     name = models.fields.CharField(unique=True)
+
+    def __str__(self):
+        return self.name
