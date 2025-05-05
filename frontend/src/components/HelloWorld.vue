@@ -138,25 +138,25 @@
     });
 
 
-  const dummyWebsocketUrl = 'http://127.0.0.1:8000/ws/';
+  const dummyWebsocketUrl = 'ws://127.0.0.1:8000/ws/';
   const dummyWebsocketText = ref('Loading');
   const dummyWebsocketLoading = ref(true);
-  const dummyWebsocket = new WebSocket(dummyWebsocketUrl);
   const dummyWebsocketPK = ref(1);
-  dummyWebsocket.onopen = () => {
+  const dummyWebsocket = new WebSocket(dummyWebsocketUrl);
+  dummyWebsocket.onopen = (e) => {
     dummyWebsocketLoading.value = false;
-    dummyWebsocketText.value = 'Ready';
+    dummyWebsocketText.value = `Ready\n${JSON.stringify(e)}`;
   };
-  dummyWebsocket.onmessage = e => {
-    dummyWebsocketText.value = JSON.stringify(JSON.parse(e.data)['data']);
+  dummyWebsocket.onmessage = (e) => {
+    dummyWebsocketText.value = `Message\n${e.data}`;
   }
-  dummyWebsocket.onerror = e => {
-    dummyWebsocketText.value = `Error\n${e}`;
+  dummyWebsocket.onerror = (e) => {
+    dummyWebsocketText.value = `Error\n${JSON.stringify(e)}`;
   }
-  dummyWebsocket.onclose = () => {
-    dummyWebsocketText.value = 'Closed';
+  dummyWebsocket.onclose = (e) => {
+    dummyWebsocketText.value = `Closed\n${JSON.stringify(e)}`;
   }
-  function wsSend (): void {
+  function wsSend(): void {
     if (dummyWebsocket.readyState != dummyWebsocket.OPEN) return;
     dummyWebsocket.send(JSON.stringify({
       action: 'retrieve',
