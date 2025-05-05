@@ -4,5 +4,5 @@ from vaccines import consumers
 
 
 websocket_urlpatterns = [
-    re_path(r"ws/vaccines/vaccine/$", consumers.VaccineConsumer.as_asgi()),
+    re_path(r"ws/$", consumers.VaccineConsumer.as_asgi()),
 ]

@@ -138,7 +138,7 @@
     });
 
 
-  const dummyWebsocketUrl = 'http://127.0.0.1:8000/ws/vaccines/vaccine/';
+  const dummyWebsocketUrl = 'http://127.0.0.1:8000/ws/';
   const dummyWebsocketText = ref('Loading');
   const dummyWebsocketLoading = ref(true);
   const dummyWebsocket = new WebSocket(dummyWebsocketUrl);
