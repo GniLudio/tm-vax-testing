@@ -15,12 +15,12 @@
         <v-col>
           <v-card
             class="py-4 text-center"
+            :href="dummyViewUrl"
+            :loading="dummyViewLoading"
+            target="_blank"
+            :text="dummyViewText"
             title="Dummy View"
             variant="tonal"
-            target="_blank"
-            :href="dummyViewUrl"
-            :text="dummyViewText"
-            :loading="dummyViewLoading"
           />
         </v-col>
       </v-row>
@@ -101,19 +101,19 @@
     },
   ]
 
-  const dummyViewUrl = "http://127.0.0.1:8000/";
-  const dummyViewText = ref("Loading");
+  const dummyViewUrl = 'http://127.0.0.1:8000/';
+  const dummyViewText = ref('Loading');
   const dummyViewLoading = ref(true);
-  // TODO: Better use useFetch for this 
+  // TODO: Better use useFetch for this
   fetch(dummyViewUrl)
-    .then((response) => response.text())
-    .then(async (text) => {
-      await new Promise((r) => setTimeout(r, 1000))
+    .then(response => response.text())
+    .then(async text => {
+      await new Promise(r => setTimeout(r, 1000))
       return text;
     })
-    .then((text) => {
+    .then(text => {
       dummyViewText.value = text;
-    }).catch((e) => {
+    }).catch(e => {
       dummyViewText.value = `Something went wrong\n${e}`
     }).finally(() => {
       dummyViewLoading.value = false;
