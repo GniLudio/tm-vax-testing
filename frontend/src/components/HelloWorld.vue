@@ -67,7 +67,7 @@
   const dummyWebsocketUrl = 'ws://127.0.0.1:8000/ws/';
   const dummyWebsocketText = ref('Loading');
   const dummyWebsocketLoading = ref(true);
-  const dummyWebsocketPK = ref(3);
+  const dummyWebsocketPK = ref(1);
   const dummyWebsocket = new WebSocket(dummyWebsocketUrl);
   dummyWebsocket.onopen = (e) => {
     dummyWebsocketLoading.value = false;
