@@ -27,6 +27,24 @@
       <v-row>
         <v-col cols="12">
           <v-card
+            class="py-4 text-center"
+            :loading="dummyWebsocketLoading"
+            :text="dummyWebsocketText"
+            title="Dummy Websocket"
+            variant="tonal"
+          />
+        </v-col>
+        <v-col>
+          <v-number-input v-model="dummyWebsocketPK" label="PK" :min="1" />
+        </v-col>
+        <v-col cols="auto">
+          <v-btn @click="wsSend">Retrieve</v-btn>
+        </v-col>
+
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-card
             class="py-4"
             color="surface-variant"
             image="https://cdn.vuetifyjs.com/docs/images/one/create/feature.png"
@@ -118,4 +136,33 @@
     }).finally(() => {
       dummyViewLoading.value = false;
     });
+
+
+  const dummyWebsocketUrl = 'http://127.0.0.1:8000/ws/vaccines/vaccine/';
+  const dummyWebsocketText = ref('Loading');
+  const dummyWebsocketLoading = ref(true);
+  const dummyWebsocket = new WebSocket(dummyWebsocketUrl);
+  const dummyWebsocketPK = ref(1);
+  dummyWebsocket.onopen = () => {
+    dummyWebsocketLoading.value = false;
+    dummyWebsocketText.value = 'Ready';
+  };
+  dummyWebsocket.onmessage = e => {
+    dummyWebsocketText.value = JSON.stringify(JSON.parse(e.data)['data']);
+  }
+  dummyWebsocket.onerror = e => {
+    dummyWebsocketText.value = `Error\n${e}`;
+  }
+  dummyWebsocket.onclose = () => {
+    dummyWebsocketText.value = 'Closed';
+  }
+  function wsSend (): void {
+    if (dummyWebsocket.readyState != dummyWebsocket.OPEN) return;
+    dummyWebsocket.send(JSON.stringify({
+      action: 'retrieve',
+      request_id: new Date().getTime(),
+      pk: dummyWebsocketPK.value,
+    }));
+  }
+
 </script>
