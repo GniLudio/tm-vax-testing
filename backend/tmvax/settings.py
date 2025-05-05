@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    "django.contrib.sites",
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
@@ -135,3 +134,11 @@ CORS_ALLOWED_ORIGINS = [
 ]
 SITE_ID = 1
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",  # Redis channel layer backend
+        "CONFIG": {
+            "hosts": [('127.0.0.1', 6379)],  # Redis host and port
+        },
+    },
+}
