@@ -24,7 +24,7 @@
           />
         </v-col>
       </v-row>
-      <v-row>
+      <v-row align="center" justify="center">
         <v-col cols="12">
           <v-card
             class="py-4 text-center"
@@ -34,8 +34,8 @@
             variant="tonal"
           />
         </v-col>
-        <v-col>
-          <v-number-input v-model="dummyWebsocketPK" label="PK" :min="1" />
+        <v-col cols="auto">
+          <v-number-input v-model="dummyWebsocketPK" hide-details label="PK" :min="1" />
         </v-col>
         <v-col cols="auto">
           <v-btn @click="wsSend">Retrieve</v-btn>
